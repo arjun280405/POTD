@@ -1,0 +1,37 @@
+class Solution {
+  public:
+    int minMen(vector<int>& arr) {
+        int n=arr.size();
+        vector<pair<int,int>>intervals;//for storing intervals {start,end}
+        
+        //Step-1 Build Intervals
+        for(int i=0;i<n;i++)
+        {
+            if(arr[i]==-1)continue;
+            int L=max(0,i-arr[i]);//To Handle negative case 
+            int R=min(n-1,i+arr[i]);//To handle out of Bound Case
+            intervals.push_back({L,R});
+        }
+        // if no one in interval
+        if(intervals.empty())return -1;
+        //Lets sort intervals as we want to start with 0 so 
+        sort(begin(intervals),end(intervals));
+        int start=0;
+        int people=0;
+        int i=0;
+        int m=intervals.size();
+        //we have to reach from start to n-1 so 
+        while(start<=n-1){
+            int farthest=-1;
+            //finding farthest distance from start
+            while(i<m && intervals[i].first<=start){
+                farthest=max(farthest,intervals[i].second);
+                i++;
+            }
+            if(farthest<start)return -1;
+            people++;
+            start=farthest+1;//as we have done work till farthest so now start move from farthest+1
+        }
+        return people;
+    }
+};
