@@ -1,0 +1,30 @@
+        //step1 find the first unset bit
+        //step2 make its prev element as 0
+class Solution {
+public:
+    vector<int> minBitwiseArray(vector<int>& nums) {
+        vector<int>ans;
+        int n=nums.size();
+        for(auto &num:nums){
+            if(num==2){
+                //2 is even so never will be eual arr[i]
+                ans.push_back(-1);
+                continue;
+            }
+            bool found=false;
+            for(int j=1;j<32;j++)
+            {
+                //checking unset bit
+                if((num & (1<<j))>0)
+                continue;
+                //else we found unset bit now make it previous one element as unset
+                ans.push_back(num^(1<<(j-1)));
+                found=true;
+                break;
+            }
+            if(!found)ans.push_back(-1);//means not possible to construct
+        }
+
+        return ans;
+    }
+};
