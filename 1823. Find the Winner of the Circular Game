@@ -1,0 +1,42 @@
+//Optimize
+class Solution {
+public:
+    int solve(int n,int k){
+        if(n==1)return 0;
+        //else call for n-1 and delete kth
+        return (solve(n-1,k)+k)%n;
+    }
+    int findTheWinner(int n, int k) {
+        return solve(n,k)+1;
+    }
+};
+//BruteForce
+class Solution {
+  public:
+    //Bruteforce in O(N2)
+    int solve(vector<bool>person,int index,int n,int k,int person_left){
+        if(person_left==1){
+        //return index where person[i]=0
+            for(int i=0;i<n;i++)
+                if(person[i]==0)return i;
+        }
+        //else find the index to kill that person
+        int killIndex=(k-1)%person_left;
+        while(killIndex--){
+            index=(index+1)%n;//move index by 1
+            while(person[index]==1)
+                index=(index+1)%n;
+        }
+            //Now kill the person
+            person[index]=1;
+            //move till we not getting alive peron
+            while(person[index]==1){
+                index=(index+1)%n;
+            }
+        return solve(person,index,n,k,person_left-1);
+    }
+    int findTheWinner(int n, int k) {
+        vector<bool>person(n,0);
+        return solve(person,0,n,k,n)+1;
+    }
+};
