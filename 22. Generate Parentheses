@@ -1,0 +1,70 @@
+class Solution {
+public:
+    //Lets validate the parenthesis 
+    vector<string>result;
+    bool isValid(string &curr){
+        int count=0;
+        for(int i=0;i<curr.size();i++)
+        {
+            if(curr[i]=='(')count++;
+            else count--;
+            if(count<0)return false;
+        }
+        return count==0;
+    }
+    void solve(string &curr,int n){
+        //Base Case
+        if(curr.size()==2*n){
+            if(isValid(curr))
+                result.push_back(curr);
+            return;
+        }
+        //Lets first push (
+        curr.push_back('(');//Do
+        solve(curr,n);//Explore
+        curr.pop_back();//Undo
+        //Lets first push )
+        curr.push_back(')');//Do
+        solve(curr,n);//Explore
+        curr.pop_back();//Undo
+    }
+    vector<string> generateParenthesis(int n) {
+        //We check here only possible cases by pushing ')' one time and one time ')'
+        string curr="";
+        solve(curr,n);
+        return result;
+    }
+};
+----------------------------------------------------------Optimal Version--------------------------------------------------------------------
+class Solution {
+public:
+    //Lets validate the parenthesis 
+    //Optimal Version By applying safety Check before pushing in curr string
+    vector<string>result;
+    void solve(string curr,int n,int open ,int close){
+        //Base Case
+        if(curr.size()==2*n){
+            result.push_back(curr);
+            return;
+        }
+        //Lets first push (
+        //Before push in Vheck safety 
+        if(open<n){
+        curr.push_back('(');//Do
+        solve(curr,n,open+1,close);//Explore
+        curr.pop_back();//Undo
+        }
+        //Lets first push )
+        if(close<open){
+        curr.push_back(')');//Do
+        solve(curr,n,open,close+1);//Explore
+        curr.pop_back();//Undo
+        }
+    }
+    vector<string> generateParenthesis(int n) {
+        //We check here only possible cases by pushing ')' one time and one time ')'
+        string curr="";
+        solve(curr,n,0,0);
+        return result;
+    }
+};
