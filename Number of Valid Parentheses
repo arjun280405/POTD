@@ -1,0 +1,31 @@
+class Solution {
+  public:
+    //Lets validate the parenthesis 
+    //Optimal Version By applying safety Check before pushing in curr string
+    int count=0;
+    void solve(string curr,int n,int open ,int close){
+        //Base Case
+        if(curr.size()==n){
+            count++;
+            return;
+        }
+        //Lets first push (
+        //Before push in Vheck safety 
+        if(open<n/2){
+        curr.push_back('(');//Do
+        solve(curr,n,open+1,close);//Explore
+        curr.pop_back();//Undo
+        }
+        //Lets first push )
+        if(close<open){
+        curr.push_back(')');//Do
+        solve(curr,n,open,close+1);//Explore
+        curr.pop_back();//Undo
+        }
+    }
+    int findWays(int n) {
+        string curr=""; 
+        solve(curr,n,0,0);
+        return count;
+    }
+};
