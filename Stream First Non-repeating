@@ -1,0 +1,21 @@
+class Solution {
+  public:
+    string firstNonRepeating(string &s) {
+        //Just take a frequency array of 26 size and take queue to get first non repeating char
+        vector<int>freq(26,0);
+        queue<char>q;
+        string ans;
+        //step1 build freq array and queue
+        for(auto &ch:s){
+            freq[ch-'a']++;
+            q.push(ch);
+        //step2 remove char which frequ is >1 from the queue so that we always get element first that freq< 2
+        while(!q.empty()&& freq[q.front()-'a']>1)
+        q.pop();
+        if(q.empty())
+        ans+='#';
+        else ans+=q.front();
+        }
+        return ans;
+    }
+};      
