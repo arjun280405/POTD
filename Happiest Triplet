@@ -1,0 +1,31 @@
+class Solution {
+  public:
+    vector<int> smallestDiff(vector<int>& a, vector<int>& b, vector<int>& c) 
+    {
+        //step 1. sort array a,b,c to get min element first
+        sort(begin(a),end(a));
+        sort(begin(b),end(b));
+        sort(begin(c),end(c));
+        //step 2. take 3 pointers i,j,k
+        int i=0,j=0,k=0;
+        int diff=INT_MAX;
+        int x=0,y=0,z=0;
+        //step 4. repeat 2 3 untill any pointer reached n
+        while(i<a.size()&&j<b.size()&&k<c.size()){
+            int low =min({a[i],b[j],c[k]});
+            int high=max({a[i],b[j],c[k]});
+            if(diff>high-low){
+                //update diff
+                diff=high-low;
+                x=high;
+                y=a[i]+b[j]+c[k]-(high+low);//middle element
+                z=low;
+            }
+            //step 3. move min element index
+            if(a[i]==low)i++;
+            else if(b[j]==low)j++;
+            else k++;
+        }
+        return {x,y,z};
+    }
+};
