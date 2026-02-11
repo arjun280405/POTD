@@ -1,0 +1,38 @@
+class Solution {
+  public:
+    bool solve(vector<int>& heights,int mid, vector<int>& cost){
+        int n=heights.size();
+        long long result1=0;
+        long long result2=0;
+        for(int i=0;i<n;i++)
+        {
+            result1+=(long long)abs(heights[i]-mid)*cost[i];
+            result2+=(long long)abs(heights[i]-(mid+1))*cost[i];
+        }
+        return result1<result2;
+    }
+    int minCost(vector<int>& heights, vector<int>& cost) {
+        //Here we check for Mid value on which we get equal tower
+        //so for this we will compare both mid and mid+!
+        int n=heights.size();
+        int s=*min_element(begin(heights),end(heights));
+        int e=*max_element(begin(heights),end(heights));
+        int ans=0;
+        while(s<=e){
+            int mid=s+(e-s)/2;
+            if(solve(heights,mid,cost)){
+                //means one feasible ans mil gya lets go to left
+                ans=mid;
+                e=mid-1;
+            }
+            else s=mid+1;
+        }
+        long long result=0;
+        //Now we find the cost to make the equate height to that mid height that we find out here
+        for(int i=0;i<heights.size();i++)
+        {
+            result+=(long long)(abs(heights[i]-ans)*cost[i]);
+        }
+        return (int)result;
+    }
+};
