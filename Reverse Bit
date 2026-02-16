@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int reverseBits(int n) {
+        if(n==0)return 0;
+        int result=0;
+        for(int i=1;i<=32;i++)
+        {
+            //step 1 Get place in result to store new LSB 
+            result<<=1;
+            //step 2 To Get LSB OF n FOR that do '&' operation with 1 and to append in ans do or opertaion with result
+            result=(result | (n&1));
+            //step 3 to get next bit of n to process do right shift
+            n>>=1;
+        }
+        return result;
+    }
+};
