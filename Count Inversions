@@ -1,0 +1,48 @@
+class Solution {
+  public:
+    int merge(vector<int>&arr,int start,int mid,int end){
+        vector<int>temp;
+        int i=start,j=mid+1;
+        int invCount=0;
+        while(i<=mid && j<=end){
+            if(arr[i]<=arr[j]){
+                //means not met inversion condition 
+                temp.push_back(arr[i]);
+                i++;
+            }
+            else{
+                //when met condition
+                temp.push_back(arr[j]);
+                invCount+=(mid-i+1);//uske aage sare element inversion honge
+                j++;
+            }
+        }
+            //Now push remaining element in temp
+            while(i<=mid){
+                temp.push_back(arr[i++]);
+            }
+            while(j<=end){
+                temp.push_back(arr[j++]);
+            }
+        
+        //Now we copy oue sorted element in original array via temp
+        for(int i=0;i<temp.size();i++){
+            arr[start+i]=temp[i];
+        }
+        return invCount;
+    }
+    int mergeSort(vector<int>&arr,int start,int end){
+        if(start<end){
+            int mid=start+(end-start)/2;
+            int leftInvCount=mergeSort(arr,start,mid);
+            int rightInvCount=mergeSort(arr,mid+1,end);
+            int invCount=merge(arr,start,mid,end);
+            return leftInvCount+rightInvCount+invCount;
+        }
+        return 0;
+    }
+    int inversionCount(vector<int> &arr) {
+       //Lets solve it opimally by Merge Sort
+       return mergeSort(arr,0,arr.size()-1);//This function return inversion count of the array
+    }
+};
