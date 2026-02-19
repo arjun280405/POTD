@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int countBinarySubstrings(string s) {
+         int prevCount=0; 
+         int currCount=1;//as we are start from 1
+         int result=0;
+        int n=s.length();
+        for(int i=1;i<n;i++)
+        {
+            if(s[i]==s[i-1]){
+                currCount++;
+            }
+            else{
+                //means new digit start
+                result+=min(prevCount,currCount);
+                prevCount=currCount;
+                currCount=1;
+            }
+        }
+        return result+min(prevCount,currCount); 
+    }
+};
