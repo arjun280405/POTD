@@ -1,0 +1,21 @@
+class Solution {
+  public:
+    int hIndex(vector<int>& citations){
+        //Here we will store frequency 
+        int n=citations.size();
+        vector<int>freq(n+1);
+        for(int i=0;i<n;i++)
+        {
+            if(citations[i]>=n)
+            freq[n]++;
+            else freq[citations[i]]++;
+        }
+        int hIndex=n;//max yahi ho sakta hai
+        int num=freq[n];
+        while(num<hIndex){
+            hIndex--;
+            num+=freq[hIndex];
+        }
+        return hIndex;
+    }
+};
