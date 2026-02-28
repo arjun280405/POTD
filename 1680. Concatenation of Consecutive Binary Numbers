@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int concatenatedBinary(int n) {
+        long res=0;
+        int M=1e9+7;
+        for(int i=1;i<=n;i++)
+        {
+            //first we check how many bit required for ith bit
+            int digits=log2(i)+1;
+            //result me jagah banao 
+
+            res=((res<<digits)%M+i)%M;
+        }
+        return res;
+    }
+};
